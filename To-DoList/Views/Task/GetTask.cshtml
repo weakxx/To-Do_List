@@ -1,0 +1,34 @@
+@using To_DoList.Domain.Enum
+@model To_DoList.Domain.Entity.TaskViewModel
+
+<form id="taskForm">
+    <input asp-for="Id" hidden />
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="@Model.Name" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.Name" />
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="@Model.Priority" class="col-form-label"></label>
+            <select asp-for="@Model.Priority" id="prioritySearch" class="form-select mb-3" asp-items="Html.GetEnumSelectList<Priority>()"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="@Model.IsDone" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.IsDone" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="@Model.CreatedAt" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.CreatedAt" dusabled="disabled" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="@Model.Description" class="col-form-label"></label>
+            <textarea type="text" class="form-control" asp-for="@Model.Description"></textarea>
+        </div>
+    </div>
+</form>

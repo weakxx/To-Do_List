@@ -1,0 +1,15 @@
+C:\Projects\To-DoList\To-DoList.Application\bin\Debug\net8.0\To-DoList.Application.deps.json
+C:\Projects\To-DoList\To-DoList.Application\bin\Debug\net8.0\To-DoList.Application.dll
+C:\Projects\To-DoList\To-DoList.Application\bin\Debug\net8.0\To-DoList.Application.pdb
+C:\Projects\To-DoList\To-DoList.Application\bin\Debug\net8.0\To-DoList.Domain.dll
+C:\Projects\To-DoList\To-DoList.Application\bin\Debug\net8.0\To-DoList.Domain.pdb
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.csproj.AssemblyReference.cache
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.AssemblyInfoInputs.cache
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.AssemblyInfo.cs
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.csproj.CoreCompileInputs.cache
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoLis.C13FBF43.Up2Date
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.dll
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\refint\To-DoList.Application.dll
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\To-DoList.Application.pdb
+C:\Projects\To-DoList\To-DoList.Application\obj\Debug\net8.0\ref\To-DoList.Application.dll

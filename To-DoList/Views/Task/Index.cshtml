@@ -1,0 +1,170 @@
+﻿@using To_DoList.Domain.Enum
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form id="createTaskForm">
+    <div class="mb-3">
+        <input name="name" type="text" class="form-control"/>
+    </div>
+    <select name="priority" class="form-select mb-3" asp-items="Html.GetEnumSelectList<Priority>()"></select>
+    <div class="mb-3">
+        <textarea name="description" type="text" class="form-control" rows="3"></textarea>
+    </div>
+    <button id="createTask" class="btn btn-primary">Создать</button>
+</form>
+
+<div class="row">
+    <div class="form-group" col-md-6>
+        <label class="col-form-label">Название</label>
+        <input name="nameTask" type="text" class="form-control" />
+    </div>
+    <div class="form-group" col-md-6>
+        <label class="col-form-label">Приоритет</label>
+        <select id="prioritySearch" class="form-control mb-3" asp-items="Html.GetEnumSelectList<Priority>()"></select>
+    </div>
+</div>
+
+<table class="table table-dark table-hover" id="tableId">
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Сложность</th>
+        <th>Описание</th>
+        <th>Статус</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<form method="get" action="/Task/ExportTasks">
+    <button type="submit" class="btn btn-primary" style="background-color: #1F6E37; color: white";>Экспортировать в Excel</button>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+    <script>
+        
+        const swalWithButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success'
+            },
+            buttonsStyling: false
+        })
+        let taskTable = $('#tableId').DataTable({
+            info: false,
+            serverSide: true,
+            searching: false,
+            paging: false,
+            sorting: false,
+            columnDefs:[
+                {orderable: false, _targets: '_all'}
+            ],
+            ajax: {
+                url: '@Url.Action("TaskHandler")',
+                method: 'POST',     
+                data: model
+            },
+            columns: [
+                {data: 'name'},
+                {data: 'priority'},
+                {data: 'description'},
+                {data: 'isDone'},
+                {data: null, sortable: false, render: function (data, type) { return '<button class="btn btn-success btn-sm center-block">Выполнить</button>'}},
+        ],
+        createdRow: function (nRow, data){
+            var handlerEdit = function (){
+                openModal({url: '@Url.Action("GetTask")', data: data.id}) 
+            }
+            var handlerComplete = function () {
+                swalWithButtons.fire({
+                    title: 'Вы уверены?',
+                    icon: 'warning',
+                    confirmButtonsText: 'Да',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("EndTask")',
+                            data: { id: data.id },
+                            success: function (response) {
+                                Swal.fire({
+                                    title: 'Информация',
+                                    text: response.description,
+                                    icon: 'success',
+                                    confirmButtonText: 'Окей'
+                                })
+                                taskTable.draw();
+                            },
+                            error: function (response) {
+                                Swal.fire({
+                                    title: 'Информация',
+                                    text: response.responseJSON.description,
+                                    icon: 'error',
+                                    confirmButtonText: 'Окей'
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+            for(var i = 0; i < taskTable.columns().header().length - 1; i++){
+                if(data.isDone === 'Готово') {  
+                    $('td', nRow).eq(i).css('cursor', 'pointer'); 
+                    }
+                else { 
+                    $('td', nRow).eq(i).css('cursor', 'pointer'); 
+                    }
+                $('td', nRow).eq(i).on('click', handlerEdit);
+            }
+            $('td button', nRow).on('click', handlerComplete);
+        }
+        })
+        
+        function model() {
+            return {
+                Name: $('input[name="nameTask"]').val(),
+                priority: $('#prioritySearch option:selected').val()
+            }
+        }
+        
+        $('#createTask').on('click', function (e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Create", "Task")',
+                data: $('#createTaskForm').serialize(),
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Информация',
+                        text: response.description,
+                        icon: 'success',
+                        confirmButtonText: 'Окей'
+                    })
+                    taskTable.draw();
+                },
+                error: function (response) {
+                     Swal.fire({
+                        title: 'Информация',
+                        text: response.responseJSON.description,
+                        icon: 'error',
+                        confirmButtonText: 'Окей'
+                     })
+                }
+            })
+        })
+    
+        $('input[name="nameTask"]').on('change', function(){
+           taskTable.draw();
+        });
+        
+        $('#prioritySearch').on('change', function () {
+            taskTable.draw();
+        });
+        
+    
+    </script>
+}
